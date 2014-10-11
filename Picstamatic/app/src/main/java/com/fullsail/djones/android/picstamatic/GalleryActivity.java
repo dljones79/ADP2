@@ -12,6 +12,9 @@ public class GalleryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+
+        GalleryFragment frag = new GalleryFragment();
+        getFragmentManager().beginTransaction().replace(R.id.galleryContainer, frag).commit();
     }
 
 

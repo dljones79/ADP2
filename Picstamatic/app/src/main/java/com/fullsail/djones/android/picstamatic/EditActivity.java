@@ -12,6 +12,9 @@ public class EditActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+        EditFragment frag = new EditFragment();
+        getFragmentManager().beginTransaction().replace(R.id.editContainer, frag).commit();
     }
 
 

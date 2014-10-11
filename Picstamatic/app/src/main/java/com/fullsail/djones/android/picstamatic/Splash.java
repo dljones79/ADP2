@@ -1,27 +1,38 @@
 package com.fullsail.djones.android.picstamatic;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class OrderActivity extends Activity {
+public class Splash extends Activity {
+
+    // How long to show splash screen
+    private final int SPLASH_LENGTH = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
+        setContentView(R.layout.activity_splash);
 
-        OrderFragment frag = new OrderFragment();
-        getFragmentManager().beginTransaction().replace(R.id.orderContainer, frag).commit();
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Intent mainIntent = new Intent(Splash.this, MainActivity.class);
+                Splash.this.startActivity(mainIntent);
+                Splash.this.finish();
+            }
+        }, SPLASH_LENGTH);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.order, menu);
+        getMenuInflater().inflate(R.menu.splash, menu);
         return true;
     }
 

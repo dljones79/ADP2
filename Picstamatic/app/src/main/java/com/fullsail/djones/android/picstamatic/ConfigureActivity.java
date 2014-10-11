@@ -12,6 +12,9 @@ public class ConfigureActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure);
+
+        ConfigureFragment frag = new ConfigureFragment();
+        getFragmentManager().beginTransaction().replace(R.id.configContainer, frag).commit();
     }
 
 
