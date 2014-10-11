@@ -1,3 +1,7 @@
+// David Jones
+// ADP2 1410 - Full Sail University
+// Picstamatic
+
 package com.fullsail.djones.android.picstamatic;
 
 
