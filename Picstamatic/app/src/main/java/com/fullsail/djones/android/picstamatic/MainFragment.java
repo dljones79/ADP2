@@ -7,12 +7,19 @@ package com.fullsail.djones.android.picstamatic;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -26,6 +33,9 @@ public class MainFragment extends Fragment {
     ImageButton mOrderButton;
     ImageButton mEditButton;
     ImageButton mConfigButton;
+    Uri mImageUri;
+
+    private static final int REQUEST_TAKE_PICTURE = 0x10101;
 
     public MainFragment() {
         // Required empty public constructor
@@ -53,8 +63,12 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.i("Button Press: ", "Capture");
-                Intent intent = new Intent(getActivity(), CameraActivity.class);
-                startActivity(intent);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                mImageUri = getOutputUri();
+                if (mImageUri != null){
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+                }
+                startActivityForResult(cameraIntent, REQUEST_TAKE_PICTURE);
             }
         });
 
@@ -93,5 +107,38 @@ public class MainFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private Uri getOutputUri(){
+        String imageName = new SimpleDateFormat("MMddyyy_HHmmss")
+                .format(new Date(System.currentTimeMillis()));
+        File imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        File appDir = new File(imageDir, "Picstamatic");
+        appDir.mkdirs();
+
+        File image = new File(appDir, imageName + ".jpg");
+        try{
+            image.createNewFile();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return Uri.fromFile(image);
+    } // End Uri getOutputUri
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == REQUEST_TAKE_PICTURE && resultCode != getActivity().RESULT_CANCELED){
+            if (mImageUri != null){
+                addImageToGallery(mImageUri);
+            }
+        }
+    }
+
+    private void addImageToGallery(Uri imageUri){
+        Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        scanIntent.setData(imageUri);
+        getActivity().sendBroadcast(scanIntent);
     }
 }

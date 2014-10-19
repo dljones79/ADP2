@@ -9,16 +9,39 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 
 public class MainActivity extends Activity {
+
+    DataObject dataObject;
+    String userCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainFragment frag = new MainFragment();
-        getFragmentManager().beginTransaction().replace(R.id.mainContainer, frag).commit();
+        dataObject = new DataObject();
+        userCheck = null;
+
+        loadData();
+
+        try {
+            userCheck = dataObject.getmFirstName().toString();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (userCheck == null){
+            ConfigureFragment frag = new ConfigureFragment();
+            getFragmentManager().beginTransaction().replace(R.id.mainContainer, frag).commit();
+        } else {
+            MainFragment frag = new MainFragment();
+            getFragmentManager().beginTransaction().replace(R.id.mainContainer, frag).commit();
+        }
     }
 
 
@@ -39,5 +62,18 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void loadData(){
+        try{
+            FileInputStream fin = openFileInput("data.txt");
+            ObjectInputStream oin = new ObjectInputStream(fin);
+            dataObject = ((DataObject) oin.readObject());
+
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 }

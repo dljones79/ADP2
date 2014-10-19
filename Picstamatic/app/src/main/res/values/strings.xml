@@ -11,5 +11,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_camera">Capture</string>
     <string name="title_activity_splash">Picstamatic</string>
+    <string name="img_description">Image Description</string>
 
 </resources>
