@@ -4,10 +4,43 @@
     android:layout_height="match_parent"
     tools:context="com.fullsail.djones.android.picstamatic.OrderFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="left|top"
+        android:src="@drawable/api_logo" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chooseButton"
+            android:src="@drawable/choose"
+            android:layout_above="@+id/orderButton"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/orderButton"
+            android:src="@drawable/order_but"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/chooseButton"
+            android:layout_alignStart="@+id/chooseButton" />
+
+        <ImageView
+            android:layout_width="325dp"
+            android:layout_height="275dp"
+            android:id="@+id/previewImage"
+            android:layout_marginBottom="47dp"
+            android:scaleType="fitCenter"
+            android:layout_above="@+id/chooseButton"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 </FrameLayout>

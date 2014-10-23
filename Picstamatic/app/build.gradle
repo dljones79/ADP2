@@ -27,6 +27,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.aviary.android.feather.sdk:aviary-sdk:3.4.3.351'
     compile 'com.android.support:support-v4:20.0.0'
+    compile files('libs/wag-quickprint-android-sdk-release.jar')
 }
 
 repositories {

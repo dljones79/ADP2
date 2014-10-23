@@ -80,6 +80,8 @@
             </intent-filter>
         </activity>
 
+        <service android:name="com.walgreens.quickprint.sdk.core.WagPrintService"></service>
+
         <!-- CDS Content Service -->
         <service
             android:process=":aviarycds"

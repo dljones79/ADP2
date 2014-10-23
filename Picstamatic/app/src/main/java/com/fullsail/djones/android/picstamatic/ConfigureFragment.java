@@ -43,6 +43,8 @@ public class ConfigureFragment extends Fragment {
 
     DataObject dataObject;
 
+    //TODO: Create Phone Field!!!
+
     public ConfigureFragment() {
         // Required empty public constructor
     }
