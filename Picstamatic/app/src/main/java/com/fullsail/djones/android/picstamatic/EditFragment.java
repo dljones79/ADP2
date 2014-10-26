@@ -33,10 +33,12 @@ public class EditFragment extends Fragment {
     ImageButton mEditButton;
     ImageView mPreviewImage;
     Uri mImageUri;
+    Uri mEditedImageUri;
     String imageFilePath;
+    Boolean changed;
 
     private static final int PICK_IMAGE = 1;
-    private static final int EDIT_IMAGE = 1;
+    private static final int EDIT_IMAGE = 2;
 
     public EditFragment() {
         // Required empty public constructor
@@ -90,6 +92,26 @@ public class EditFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == EDIT_IMAGE){
+            Log.i("Request Code: ", "Edit Image");
+            if (resultCode == getActivity().RESULT_OK){
+                Log.i("Result Code:", "OK");
+                switch( requestCode ) {
+                    case 2:
+                        mEditedImageUri = data.getData();
+                        Log.i("Edited Uri:", mEditedImageUri.toString());
+                        Bundle extra = data.getExtras();
+                        if (null != extra){
+                            changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
+                        }
+                        break;
+                }
+            }
+
+            mPreviewImage.setImageBitmap(BitmapFactory.decodeFile(mEditedImageUri.getPath()));
+        }
+
+
         if (requestCode == PICK_IMAGE && data != null && data.getData() != null){
             Log.i("Picking Image", "Good Result.");
 
@@ -106,9 +128,9 @@ public class EditFragment extends Fragment {
 
             mPreviewImage.setImageBitmap(BitmapFactory.decodeFile(imageFilePath));
 
-        } else {
-            Log.i("Picking Image", "Bad Result.");
         }
+
+
 
     }
 

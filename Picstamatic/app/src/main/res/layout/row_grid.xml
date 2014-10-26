@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="75dp"
         android:contentDescription="@string/img_description"
         android:padding="10dp"
         android:adjustViewBounds="true">

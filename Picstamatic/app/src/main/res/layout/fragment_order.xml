@@ -22,17 +22,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/chooseButton"
             android:src="@drawable/choose"
-            android:layout_above="@+id/orderButton"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/previewImage"
+            android:layout_alignStart="@+id/previewImage" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/orderButton"
             android:src="@drawable/order_but"
-            android:layout_alignParentBottom="true"
-            android:layout_alignLeft="@+id/chooseButton"
-            android:layout_alignStart="@+id/chooseButton" />
+            android:layout_below="@+id/previewImage"
+            android:layout_alignRight="@+id/previewImage"
+            android:layout_alignEnd="@+id/previewImage" />
 
         <ImageView
             android:layout_width="325dp"
@@ -42,5 +43,24 @@
             android:scaleType="fitCenter"
             android:layout_above="@+id/chooseButton"
             android:layout_centerHorizontal="true" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_above="@+id/chooseButton"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Uploading...."
+            android:id="@+id/uploadText"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:background="#ff919eff"
+            android:visibility="invisible" />
     </RelativeLayout>
 </FrameLayout>

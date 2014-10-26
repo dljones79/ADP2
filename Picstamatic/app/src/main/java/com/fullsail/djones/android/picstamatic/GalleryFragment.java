@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,12 +30,10 @@ public class GalleryFragment extends Fragment implements LoaderManager.LoaderCal
     SimpleCursorAdapter mAdapter;
 
     private GridView gridView;
-    //private GridViewAdapter gridViewAdapter;
 
     public GalleryFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,11 +60,18 @@ public class GalleryFragment extends Fragment implements LoaderManager.LoaderCal
         gridView.setAdapter(mAdapter);
 
         getLoaderManager().initLoader(0, null, this);
+
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+
+        Log.i("onCreateLoader", "Loader created.");
+
         Uri mUri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
+
+        Log.i("URI: ", mUri.toString());
+
         return new CursorLoader(getActivity(), mUri, null, null, null, null);
     }
 

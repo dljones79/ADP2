@@ -17,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.aviary.android.feather.library.Constants;
+import com.aviary.android.feather.sdk.FeatherActivity;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +38,11 @@ public class MainFragment extends Fragment {
     ImageButton mConfigButton;
     Uri mImageUri;
 
-    private static final int REQUEST_TAKE_PICTURE = 0x10101;
+    private static final int REQUEST_TAKE_PICTURE = 1;
+    private static final int PICK_IMAGE = 2;
+    private static final int EDIT_IMAGE = 3;
+    Uri mEditedImageUri;
+    Boolean changed;
 
     public MainFragment() {
         // Required empty public constructor
@@ -76,8 +83,16 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.i("Button Press: ", "Gallery");
+                /*
                 Intent intent = new Intent(getActivity(), GalleryActivity.class);
                 startActivity(intent);
+                */
+
+                Intent galleryIntent = new Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                );
+                startActivityForResult(galleryIntent, PICK_IMAGE);
             }
         });
 
@@ -132,6 +147,25 @@ public class MainFragment extends Fragment {
         if (requestCode == REQUEST_TAKE_PICTURE && resultCode != getActivity().RESULT_CANCELED){
             if (mImageUri != null){
                 addImageToGallery(mImageUri);
+            }
+        }
+
+        if (requestCode == PICK_IMAGE){
+
+            mImageUri = data.getData();
+
+            Intent editIntent = new Intent( getActivity(), FeatherActivity.class);
+            editIntent.setData(mImageUri);
+            editIntent.putExtra(Constants.EXTRA_IN_API_KEY_SECRET, "fe1a79bf567ddd0f");
+            startActivityForResult(editIntent, EDIT_IMAGE);
+        }
+
+        if (requestCode == EDIT_IMAGE){
+            mEditedImageUri = data.getData();
+            Log.i("Edited Uri:", mEditedImageUri.toString());
+            Bundle extra = data.getExtras();
+            if (null != extra){
+                changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
             }
         }
     }
