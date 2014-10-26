@@ -1,3 +1,7 @@
+// David Jones
+//ADP2
+//Full Sail University
+
 package com.fullsail.djones.android.picstamatic;
 
 import java.io.Serializable;
