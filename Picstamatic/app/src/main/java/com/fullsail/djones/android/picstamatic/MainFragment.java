@@ -31,6 +31,7 @@ import java.util.Date;
  */
 public class MainFragment extends Fragment {
 
+    // Component definitions
     ImageButton mCaptureButton;
     ImageButton mGalleryButton;
     ImageButton mOrderButton;
@@ -60,12 +61,14 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // Set ui components to variables
         mCaptureButton = (ImageButton)getActivity().findViewById(R.id.captureButton);
         mGalleryButton = (ImageButton)getActivity().findViewById(R.id.galleryButton);
         mEditButton = (ImageButton)getActivity().findViewById(R.id.editButton);
         mOrderButton = (ImageButton)getActivity().findViewById(R.id.orderButton);
         mConfigButton = (ImageButton)getActivity().findViewById(R.id.configButton);
 
+        // Capture button listener
         mCaptureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,8 +80,9 @@ public class MainFragment extends Fragment {
                 }
                 startActivityForResult(cameraIntent, REQUEST_TAKE_PICTURE);
             }
-        });
+        }); // end of capture button listener
 
+        // Gallery button listener
         mGalleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,14 +92,16 @@ public class MainFragment extends Fragment {
                 startActivity(intent);
                 */
 
+                // Create intent to open gallery
                 Intent galleryIntent = new Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                 );
                 startActivityForResult(galleryIntent, PICK_IMAGE);
             }
-        });
+        }); // end of gallery listener
 
+        // Edit button listener
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,8 +109,9 @@ public class MainFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), EditActivity.class);
                 startActivity(intent);
             }
-        });
+        }); // end of edit button listener
 
+        // order button listener
         mOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,8 +119,9 @@ public class MainFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), OrderActivity.class);
                 startActivity(intent);
             }
-        });
+        }); // end of order button listener
 
+        // settings button listener
         mConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,17 +129,22 @@ public class MainFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ConfigureActivity.class);
                 startActivity(intent);
             }
-        });
+        }); // end of settings button listener
     }
 
+    // custom method to save out captured image
     private Uri getOutputUri(){
+        // get date and time for naming image
         String imageName = new SimpleDateFormat("MMddyyy_HHmmss")
                 .format(new Date(System.currentTimeMillis()));
+        // get the image directory
         File imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
+        // create a new image folder
         File appDir = new File(imageDir, "Picstamatic");
         appDir.mkdirs();
 
+        // add image to folder
         File image = new File(appDir, imageName + ".jpg");
         try{
             image.createNewFile();
@@ -142,14 +155,18 @@ public class MainFragment extends Fragment {
         return Uri.fromFile(image);
     } // End Uri getOutputUri
 
+    // On results being returned from other activity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        // if we just took a picture
         if (requestCode == REQUEST_TAKE_PICTURE && resultCode != getActivity().RESULT_CANCELED){
             if (mImageUri != null){
                 addImageToGallery(mImageUri);
             }
         }
 
+        // if we're picking an image from gallery
         if (requestCode == PICK_IMAGE){
 
             mImageUri = data.getData();
@@ -160,6 +177,7 @@ public class MainFragment extends Fragment {
             startActivityForResult(editIntent, EDIT_IMAGE);
         }
 
+        // if we just edited an image
         if (requestCode == EDIT_IMAGE){
             mEditedImageUri = data.getData();
             Log.i("Edited Uri:", mEditedImageUri.toString());
@@ -170,6 +188,7 @@ public class MainFragment extends Fragment {
         }
     }
 
+    // add the saved image to the gallery and broadcast the intent
     private void addImageToGallery(Uri imageUri){
         Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         scanIntent.setData(imageUri);

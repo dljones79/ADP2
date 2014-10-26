@@ -71,6 +71,7 @@ public class EditFragment extends Fragment {
                 startActivityForResult(Intent.createChooser(galleryIntent, "Select Picture"), PICK_IMAGE);
                 */
 
+                // Open device gallery to pick an image
                 Intent galleryIntent = new Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -79,6 +80,7 @@ public class EditFragment extends Fragment {
             }
         });
 
+        // edit button listener
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +94,7 @@ public class EditFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        // If we just edited an image:
         if (requestCode == EDIT_IMAGE){
             Log.i("Request Code: ", "Edit Image");
             if (resultCode == getActivity().RESULT_OK){
@@ -111,7 +114,7 @@ public class EditFragment extends Fragment {
             mPreviewImage.setImageBitmap(BitmapFactory.decodeFile(mEditedImageUri.getPath()));
         }
 
-
+        // if we just picked an image from gallery:
         if (requestCode == PICK_IMAGE && data != null && data.getData() != null){
             Log.i("Picking Image", "Good Result.");
 

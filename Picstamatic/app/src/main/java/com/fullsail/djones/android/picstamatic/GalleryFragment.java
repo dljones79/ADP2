@@ -21,10 +21,12 @@ import android.widget.GridView;
 import android.widget.SimpleCursorAdapter;
 
 
-/**
- * A simple {@link Fragment} subclass.
- *
- */
+//////////////////////
+// Currently not using a.t.m.
+// Having some issues with loading images from storage
+// Currently just using device gallery from main activity
+///////////////////////
+
 public class GalleryFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     SimpleCursorAdapter mAdapter;
@@ -67,6 +69,10 @@ public class GalleryFragment extends Fragment implements LoaderManager.LoaderCal
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         Log.i("onCreateLoader", "Loader created.");
+
+        // this was working somewhat, but only pulling images from a certain folder
+        // i deleted that folder because it was from a previous application
+        // now no images are loaded into gridview
 
         Uri mUri = MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI;
 

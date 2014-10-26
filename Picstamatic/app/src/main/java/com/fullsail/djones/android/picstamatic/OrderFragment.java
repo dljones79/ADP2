@@ -107,12 +107,14 @@ public class OrderFragment extends Fragment implements LocationListener{
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
+        // create and array to store images
         imageArray = new ArrayList<File>();
 
-        // Get location
+        // Get location for ordering
         mManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         enableGps();
 
+        // set ui elements to their variables
         mChooseButton = (ImageButton) getActivity().findViewById(R.id.chooseButton);
         mOrderButton = (ImageButton) getActivity().findViewById(R.id.orderButton);
         mPreviewImage = (ImageView) getActivity().findViewById(R.id.previewImage);
@@ -122,17 +124,21 @@ public class OrderFragment extends Fragment implements LocationListener{
         dataObject = new DataObject();
         mProgressBar.setVisibility(View.INVISIBLE);
 
+        // call custom method to load user data
         loadData();
 
+        // allow process in main ui thread
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        // create customer info object for walgreens
         CustomerInfo cInfo = new CustomerInfo();
         cInfo.setFirstName(dataObject.getmFirstName());
         cInfo.setLastName(dataObject.getmLastName());
         cInfo.setEmail(dataObject.getmEmail());
         cInfo.setPhone(dataObject.getmPhone());
 
+        // create a walgreens checkoutcontext
         try {
             checkoutContext = WagCheckoutContextFactory.createContext(getActivity().getApplication());
             Log.i("Wag Checkout: ", "Context Good!");
@@ -140,6 +146,7 @@ public class OrderFragment extends Fragment implements LocationListener{
             e.printStackTrace();
         }
 
+        // initialize checkoutcontext
         try {
             checkoutContext.init("extest1", "o5UZbHCGf6IU7OrDJOd3rd34XQ0qcAU3", cInfo,
                     null, null, WagCheckoutContext.EnvironmentType.DEVELOPMENT, "1.0.1");
@@ -175,7 +182,7 @@ public class OrderFragment extends Fragment implements LocationListener{
             @Override
             public void onClick(View v) {
 
-
+                // listener for uploading images
                 UploadStatusListener statusListener = new UploadStatusListener() {
                     @Override
                     public void onError(WagCheckoutContextException e, File file) {
@@ -370,6 +377,7 @@ public class OrderFragment extends Fragment implements LocationListener{
     }
     */
 
+    // custom method to get current location
     private void enableGps() {
         if(mManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             mManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
